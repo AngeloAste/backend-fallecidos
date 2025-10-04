@@ -130,7 +130,7 @@ DATABASE_PORT=5432
 DATABASE_USER=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_NAME=fallecidos_db
-PORT=3000
+PORT=3002
 ```
 
 La aplicación usa `synchronize: true` en desarrollo, lo que crea automáticamente las tablas.
