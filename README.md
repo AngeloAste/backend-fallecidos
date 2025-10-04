@@ -25,10 +25,82 @@ API REST desarrollada con NestJS para la gestión de registros de personas falle
 ## Requisitos Previos
 
 - Node.js 18+
-- PostgreSQL 12+
+- Docker y Docker Compose (opcional pero recomendado)
+- PostgreSQL 12+ (si no usas Docker)
 - npm o yarn
 
-## Instalación
+## Instalación y Ejecución
+
+### Opción 1: Con Docker Compose (Recomendado)
+
+#### Windows
+
+```powershell
+# Clonar el repositorio
+git clone https://github.com/AngeloAste/backend-fallecidos.git
+cd backend-fallecidos
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+copy .env.example .env
+
+# Levantar PostgreSQL con Docker Compose
+docker-compose up -d
+
+# Esperar a que PostgreSQL esté listo (aproximadamente 10 segundos)
+timeout /t 10
+
+# Iniciar la aplicación en modo desarrollo
+npm run start:dev
+```
+
+#### Linux/Mac
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/AngeloAste/backend-fallecidos.git
+cd backend-fallecidos
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+cp .env.example .env
+
+# Levantar PostgreSQL con Docker Compose
+docker-compose up -d
+
+# Esperar a que PostgreSQL esté listo (aproximadamente 10 segundos)
+sleep 10
+
+# Iniciar la aplicación en modo desarrollo
+npm run start:dev
+```
+
+### Opción 2: Sin Docker (PostgreSQL Local)
+
+#### Windows
+
+```powershell
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+copy .env.example .env
+# Editar .env con tus credenciales de PostgreSQL
+
+# Crear la base de datos (desde psql)
+psql -U postgres
+CREATE DATABASE fallecidos_db;
+\q
+
+# Iniciar la aplicación
+npm run start:dev
+```
+
+#### Linux/Mac
 
 ```bash
 # Instalar dependencias
@@ -37,6 +109,15 @@ npm install
 # Configurar variables de entorno
 cp .env.example .env
 # Editar .env con tus credenciales de PostgreSQL
+
+# Crear la base de datos
+createdb fallecidos_db
+# O desde psql:
+# psql -U postgres
+# CREATE DATABASE fallecidos_db;
+
+# Iniciar la aplicación
+npm run start:dev
 ```
 
 ## Configuración
@@ -52,31 +133,70 @@ DATABASE_NAME=fallecidos_db
 PORT=3000
 ```
 
-## Base de Datos
-
-```bash
-# Crear la base de datos PostgreSQL
-createdb fallecidos_db
-
-# O desde psql:
-psql -U postgres
-CREATE DATABASE fallecidos_db;
-```
-
 La aplicación usa `synchronize: true` en desarrollo, lo que crea automáticamente las tablas.
 
-## Ejecución
+## Comandos Docker Compose
+
+### Windows
+
+```powershell
+# Levantar servicios
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Detener servicios
+docker-compose down
+
+# Detener y eliminar volúmenes (elimina datos)
+docker-compose down -v
+
+# Verificar estado
+docker-compose ps
+```
+
+### Linux/Mac
 
 ```bash
-# Desarrollo
+# Levantar servicios
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Detener servicios
+docker-compose down
+
+# Detener y eliminar volúmenes (elimina datos)
+docker-compose down -v
+
+# Verificar estado
+docker-compose ps
+```
+
+## Ejecución de la Aplicación
+
+### Windows
+
+```powershell
+# Modo desarrollo
 npm run start:dev
 
-# Producción
+# Modo producción
 npm run build
 npm run start:prod
+```
 
-# Watch mode
+### Linux/Mac
+
+```bash
+# Modo desarrollo
 npm run start:dev
+
+# Modo producción
+npm run build
+npm run start:prod
 ```
 
 La API estará disponible en:
